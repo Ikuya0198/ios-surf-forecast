@@ -1096,11 +1096,9 @@ section h2 {
 }
 
 .interpretation-text {
-    font-family: 'Caveat', cursive;
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 0.9rem;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.7;
     margin: 0;
 }
 
@@ -1720,17 +1718,30 @@ section h2 {
 
 .coffee-link:hover {
     border-color: var(--primary);
-    background: var(--bg-glass-hover);
+    background: transparent;
     color: var(--primary);
 }
 
-.donate-description {
+.donate-banner {
     text-align: center;
-    font-size: 0.85rem;
+    padding: 20px;
+    background: var(--bg-glass);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 24px;
+}
+
+.donate-banner .coffee-link {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.donate-description {
+    font-size: 0.75rem;
     color: var(--text-muted);
-    max-width: 500px;
-    margin: 12px auto 30px;
-    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.5;
 }
 
 .charity-section {
@@ -1750,10 +1761,11 @@ section h2 {
 
 .charity-description {
     text-align: center;
-    color: var(--text-secondary);
-    max-width: 600px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    max-width: 500px;
     margin: 16px auto 0;
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
 .charity-banners {
