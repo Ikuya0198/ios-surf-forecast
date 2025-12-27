@@ -142,31 +142,23 @@ function t(key) {
 // ========================================
 const COUNTRIES = {
     japan: {
-        name: { en: 'Japan', ja: '日本' },
+        name: { en: '🇯🇵 Japan', ja: '🇯🇵 日本' },
+        flag: '🇯🇵',
         regions: {
             shonan: {
                 name: { en: 'Shonan', ja: '湘南' },
                 spots: [
                     { id: 'kugenuma', name: { en: 'Kugenuma', ja: '鵠沼' }, lat: 35.3167, lon: 139.4667, facing: 180 },
-                    { id: 'tsujido', name: { en: 'Tsujido', ja: '辻堂' }, lat: 35.3250, lon: 139.4500, facing: 180 },
                     { id: 'chigasaki', name: { en: 'Chigasaki', ja: '茅ヶ崎' }, lat: 35.3167, lon: 139.4000, facing: 180 },
-                    { id: 'kamakura', name: { en: 'Kamakura', ja: '鎌倉' }, lat: 35.3083, lon: 139.5333, facing: 180 },
-                    { id: 'zaimokuza', name: { en: 'Zaimokuza', ja: '材木座' }, lat: 35.3000, lon: 139.5500, facing: 180 }
+                    { id: 'kamakura', name: { en: 'Kamakura', ja: '鎌倉' }, lat: 35.3083, lon: 139.5333, facing: 180 }
                 ]
             },
             chiba: {
                 name: { en: 'Chiba', ja: '千葉' },
                 spots: [
                     { id: 'ichinomiya', name: { en: 'Ichinomiya', ja: '一宮' }, lat: 35.3833, lon: 140.3833, facing: 90 },
-                    { id: 'taito', name: { en: 'Taito', ja: '太東' }, lat: 35.2833, lon: 140.4333, facing: 90 },
                     { id: 'katagai', name: { en: 'Katagai', ja: '片貝' }, lat: 35.4333, lon: 140.4167, facing: 90 },
                     { id: 'kujukuri', name: { en: 'Kujukuri', ja: '九十九里' }, lat: 35.5000, lon: 140.4333, facing: 90 }
-                ]
-            },
-            ibaraki: {
-                name: { en: 'Ibaraki', ja: '茨城' },
-                spots: [
-                    { id: 'oarai', name: { en: 'Oarai', ja: '大洗' }, lat: 36.3167, lon: 140.5833, facing: 90 }
                 ]
             },
             izu: {
@@ -174,8 +166,77 @@ const COUNTRIES = {
                 spots: [
                     { id: 'shirahama', name: { en: 'Shirahama', ja: '白浜' }, lat: 34.6667, lon: 138.9667, facing: 135 },
                     { id: 'tatado', name: { en: 'Tatadohama', ja: '多々戸浜' }, lat: 34.6500, lon: 138.9500, facing: 180 },
-                    { id: 'irita', name: { en: 'Iritahama', ja: '入田浜' }, lat: 34.6583, lon: 138.9417, facing: 180 },
                     { id: 'kisami', name: { en: 'Kisami', ja: '吉佐美' }, lat: 34.6417, lon: 138.9333, facing: 180 }
+                ]
+            }
+        }
+    },
+    indonesia: {
+        name: { en: '🇮🇩 Indonesia', ja: '🇮🇩 インドネシア' },
+        flag: '🇮🇩',
+        regions: {
+            bali: {
+                name: { en: 'Bali', ja: 'バリ' },
+                spots: [
+                    { id: 'uluwatu', name: { en: 'Uluwatu', ja: 'ウルワツ' }, lat: -8.8291, lon: 115.0849, facing: 225 },
+                    { id: 'padang', name: { en: 'Padang Padang', ja: 'パダンパダン' }, lat: -8.8144, lon: 115.0986, facing: 225 },
+                    { id: 'kuta', name: { en: 'Kuta Beach', ja: 'クタビーチ' }, lat: -8.7180, lon: 115.1686, facing: 225 }
+                ]
+            }
+        }
+    },
+    hawaii: {
+        name: { en: '🇺🇸 Hawaii', ja: '🇺🇸 ハワイ' },
+        flag: '🇺🇸',
+        regions: {
+            oahu: {
+                name: { en: 'Oahu North Shore', ja: 'オアフ・ノースショア' },
+                spots: [
+                    { id: 'pipeline', name: { en: 'Pipeline', ja: 'パイプライン' }, lat: 21.6650, lon: -158.0539, facing: 315 },
+                    { id: 'sunset', name: { en: 'Sunset Beach', ja: 'サンセットビーチ' }, lat: 21.6783, lon: -158.0419, facing: 315 },
+                    { id: 'waimea', name: { en: 'Waimea Bay', ja: 'ワイメアベイ' }, lat: 21.6419, lon: -158.0656, facing: 315 }
+                ]
+            }
+        }
+    },
+    australia: {
+        name: { en: '🇦🇺 Australia', ja: '🇦🇺 オーストラリア' },
+        flag: '🇦🇺',
+        regions: {
+            goldcoast: {
+                name: { en: 'Gold Coast', ja: 'ゴールドコースト' },
+                spots: [
+                    { id: 'snapper', name: { en: 'Snapper Rocks', ja: 'スナッパーロックス' }, lat: -28.1656, lon: 153.5494, facing: 90 },
+                    { id: 'kirra', name: { en: 'Kirra', ja: 'キラ' }, lat: -28.1653, lon: 153.5336, facing: 90 },
+                    { id: 'burleigh', name: { en: 'Burleigh Heads', ja: 'バーレーヘッズ' }, lat: -28.0864, lon: 153.4556, facing: 90 }
+                ]
+            }
+        }
+    },
+    portugal: {
+        name: { en: '🇵🇹 Portugal', ja: '🇵🇹 ポルトガル' },
+        flag: '🇵🇹',
+        regions: {
+            peniche: {
+                name: { en: 'Peniche', ja: 'ペニシェ' },
+                spots: [
+                    { id: 'supertubos', name: { en: 'Supertubos', ja: 'スーパーチューボス' }, lat: 39.3558, lon: -9.3708, facing: 270 },
+                    { id: 'nazare', name: { en: 'Nazaré', ja: 'ナザレ' }, lat: 39.6017, lon: -9.0714, facing: 270 },
+                    { id: 'ericeira', name: { en: 'Ericeira', ja: 'エリセイラ' }, lat: 38.9631, lon: -9.4189, facing: 270 }
+                ]
+            }
+        }
+    },
+    california: {
+        name: { en: '🇺🇸 California', ja: '🇺🇸 カリフォルニア' },
+        flag: '🇺🇸',
+        regions: {
+            socal: {
+                name: { en: 'Southern California', ja: '南カリフォルニア' },
+                spots: [
+                    { id: 'trestles', name: { en: 'Trestles', ja: 'トレッスルズ' }, lat: 33.3825, lon: -117.5886, facing: 225 },
+                    { id: 'huntington', name: { en: 'Huntington Beach', ja: 'ハンティントンビーチ' }, lat: 33.6553, lon: -117.9992, facing: 225 },
+                    { id: 'malibu', name: { en: 'Malibu', ja: 'マリブ' }, lat: 34.0369, lon: -118.6778, facing: 180 }
                 ]
             }
         }
@@ -611,6 +672,7 @@ function renderCurrentConditions(data) {
 
         <div class="surf-rating fade-in">
             <div class="rating-badge-large ${rating.class}">${t(rating.labelKey)}</div>
+            <div class="current-score">${score}<span class="score-unit">pt</span></div>
             <div class="rating-comment">"${funnyComment}"</div>
         </div>
 
@@ -744,6 +806,7 @@ function renderTomorrowForecast(data) {
                 <div class="best-time-value">${bestTimeRange}</div>
                 <div class="best-time-detail">${bestHour.waveHeight.toFixed(1)}m / <span class="${bestHour.windCond.class}">${t(bestHour.windCond.labelKey)}</span></div>
             </div>
+            <div class="best-time-score">${bestHour.score}<span class="score-unit">pt</span></div>
             <div class="best-time-rating ${bestHour.rating.class}">${t(bestHour.rating.labelKey)}</div>
         </div>
 
@@ -752,6 +815,7 @@ function renderTomorrowForecast(data) {
                 <div class="time-block ${s.bestHour.hour === bestHour.hour ? 'best' : ''}">
                     <div class="time-label">${s.label}</div>
                     <div class="wave-height">${s.maxWave.toFixed(1)}<span>m</span></div>
+                    <div class="score-display">${Math.round(s.avgScore)}<span>pt</span></div>
                     <div class="details">${s.bestHour.label} / <span class="${s.bestHour.windCond.class}">${t(s.bestHour.windCond.labelKey)}</span></div>
                     <span class="rating-badge ${s.rating.class}">${t(s.rating.labelKey)}</span>
                 </div>
@@ -766,6 +830,7 @@ function renderTomorrowForecast(data) {
                         <div class="hour-card ${h.hour === bestHour.hour ? 'best' : ''}">
                             <div class="hour">${h.label}</div>
                             <div class="wave">${h.waveHeight.toFixed(1)}m</div>
+                            <div class="hour-score">${h.score}pt</div>
                             <div class="wind ${h.windCond.class}">${t(h.windCond.labelKey).slice(0, 3)}</div>
                             <div class="rating-dot ${h.rating.class}"></div>
                         </div>

@@ -125,19 +125,31 @@ body::after {
 }
 
 .logo {
-    font-size: 2.2rem;
-    font-weight: 800;
+    font-size: 3.5rem;
+    font-weight: 900;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    text-shadow: 0 2px 20px rgba(0, 212, 255, 0.5);
-    letter-spacing: -0.5px;
+    gap: 15px;
+    color: #ffdd00;
+    text-shadow:
+        3px 3px 0 #ff6b35,
+        6px 6px 0 rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(255, 221, 0, 0.5);
+    letter-spacing: 2px;
+    transform: rotate(-2deg);
+    font-style: italic;
 }
 
 .wave-icon {
-    font-size: 2.5rem;
-    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 15px rgba(255, 221, 0, 0.6));
+    animation: waveFloat 2s ease-in-out infinite;
+}
+
+@keyframes waveFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(5deg); }
 }
 
 .subtitle {
@@ -185,8 +197,8 @@ section {
     backdrop-filter: var(--blur);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 24px;
+    padding: 18px;
+    margin-bottom: 16px;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
 }
@@ -197,11 +209,11 @@ section:hover {
 }
 
 section h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--primary);
-    margin-bottom: 20px;
-    padding-bottom: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -229,34 +241,41 @@ section h2 {
 
 /* Spot Selector */
 .country-section {
-    margin-bottom: 20px;
+    margin-bottom: 14px;
+    padding: 12px;
+    background: var(--bg-glass);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
 }
 
 .country-label {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
+    color: var(--warning);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .regions-wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 12px;
 }
 
 .region-group {
     flex: 1;
-    min-width: 200px;
+    min-width: 180px;
 }
 
 .region-label {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 8px;
+    color: var(--primary);
+    margin-bottom: 6px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -264,17 +283,17 @@ section h2 {
 .spots-wrap {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .spot-tab {
-    padding: 10px 16px;
+    padding: 8px 14px;
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 16px;
     background: var(--bg-glass);
     backdrop-filter: var(--blur);
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-secondary);
     transition: all 0.3s ease;
@@ -284,6 +303,8 @@ section h2 {
     background: var(--bg-glass-hover);
     border-color: var(--primary);
     color: var(--text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
 }
 
 .spot-tab.active {
@@ -292,6 +313,7 @@ section h2 {
     border-color: var(--primary);
     font-weight: 700;
     box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+    transform: translateY(-2px);
 }
 
 /* Loading */
@@ -327,7 +349,7 @@ section h2 {
 
 .condition-card {
     text-align: center;
-    padding: 20px 12px;
+    padding: 14px 10px;
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -341,7 +363,7 @@ section h2 {
 }
 
 .condition-card .value {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 700;
     color: var(--text);
     line-height: 1.2;
@@ -395,25 +417,37 @@ section h2 {
 /* Surf Rating */
 .surf-rating {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    padding: 30px;
+    gap: 20px;
+    padding: 14px 24px;
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 153, 204, 0.05) 100%);
     border: 1px solid var(--border-glow);
     border-radius: var(--radius);
-    margin-bottom: 20px;
-    text-align: center;
+    margin-bottom: 12px;
 }
 
 .rating-badge-large {
-    font-size: 2rem;
+    font-size: 1.4rem;
     font-weight: 800;
-    padding: 12px 40px;
-    border-radius: 30px;
+    padding: 8px 24px;
+    border-radius: 25px;
     text-transform: uppercase;
     letter-spacing: 2px;
+    white-space: nowrap;
+}
+
+.current-score {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--success);
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+.current-score .score-unit {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 400;
 }
 
 .rating-badge-large.excellent { background: var(--success); color: var(--bg-dark); }
@@ -422,10 +456,18 @@ section h2 {
 .rating-badge-large.poor { background: var(--danger); color: white; }
 
 .rating-comment {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-style: italic;
-    color: var(--text-secondary);
-    max-width: 500px;
+    color: var(--warning);
+    flex: 1;
+    text-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .surf-rating {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 /* Advice Box */
@@ -466,16 +508,16 @@ section h2 {
 .info-row {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 14px;
     flex-wrap: wrap;
 }
 
 .info-card {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 16px 24px;
+    gap: 16px;
+    padding: 12px 18px;
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -513,8 +555,8 @@ section h2 {
 
 /* Tide Section */
 .tide-section {
-    margin-top: 20px;
-    padding: 20px;
+    margin-top: 14px;
+    padding: 14px;
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -525,8 +567,8 @@ section h2 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .tide-type {
@@ -551,11 +593,11 @@ section h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 12px 20px;
+    padding: 8px 16px;
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: var(--radius-xs);
-    min-width: 80px;
+    min-width: 70px;
     transition: all 0.3s ease;
 }
 
@@ -721,8 +763,25 @@ section h2 {
     margin-top: 4px;
 }
 
-.best-time-rating {
+.best-time-score {
     font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--success);
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.best-time-score .score-unit {
+    font-size: 1rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.best-time-rating {
+    font-size: 1.5rem;
+    font-weight: 800;
+    padding: 8px 20px;
+    border-radius: 20px;
+    text-transform: uppercase;
 }
 
 /* Tomorrow Grid */
@@ -761,20 +820,32 @@ section h2 {
 }
 
 .time-block .wave-height {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--text);
 }
 
 .time-block .wave-height span {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.time-block .score-display {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--success);
+    margin-top: 4px;
+}
+
+.time-block .score-display span {
+    font-size: 0.7rem;
     color: var(--text-muted);
 }
 
 .time-block .details {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
-    margin-top: 10px;
+    margin-top: 6px;
 }
 
 .rating-badge {
@@ -927,10 +998,17 @@ section h2 {
 }
 
 .hour-card .wave {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--primary);
-    margin: 8px 0;
+    margin: 4px 0;
+}
+
+.hour-card .hour-score {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--success);
+    margin-bottom: 4px;
 }
 
 .hour-card .wind {
