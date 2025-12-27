@@ -78,6 +78,8 @@ const translations = {
         weatherSnow: 'Snow',
         weatherThunder: 'Thunderstorm',
         weather: 'Weather',
+        // Forecast interpretation
+        forecastAdvice: 'Forecast Advice',
         // Intro
         introText: 'Free surf forecast for friendly surfers worldwide. Real-time wave data & prediction algorithm. Check the conditions and find your peak!',
         // Footer
@@ -153,6 +155,8 @@ const translations = {
         weatherSnow: '雪',
         weatherThunder: '雷雨',
         weather: '天気',
+        // Forecast interpretation
+        forecastAdvice: '予報アドバイス',
         // Intro
         introText: '世界中のフレンドリーサーファーのための無料波予報。リアルタイム波データ＆予測アルゴリズム。コンディションをチェックしてピークを見つけよう！',
         // Footer
@@ -458,6 +462,70 @@ function generateFunnyComment(waveHeight, wavePeriod, windCond, score, lang) {
     return pool[Math.floor(Math.random() * pool.length)];
 }
 
+function generateForecastInterpretation(bestScore, bestWaveHeight, bestWindCond, avgScore, lang) {
+    const interpretations = {
+        en: {
+            epic: [
+                "Tomorrow is looking FIRE! Set your alarm early, tell your boss you have a dentist appointment, and get ready for some epic sessions. The wind and swell are aligning perfectly - this is the kind of day you'll be talking about at the bar for weeks!",
+                "OK so... tomorrow might be one of those days. You know, THE days. The kind where you call in sick, grab your favorite board, and make memories. The ocean is basically sending you a personal invitation!",
+                "Alert alert! The surf gods have spoken and they're feeling generous tomorrow. Clean conditions, solid swell, and the kind of waves that make you forget all your problems. Don't you dare miss this!"
+            ],
+            good: [
+                "Looking pretty solid for tomorrow! Not quite 'quit your job' territory, but definitely worth setting that alarm a bit earlier. Conditions should be clean and fun - perfect for some quality water time.",
+                "Tomorrow's shaping up nicely! The waves are rolling in and the wind is playing nice. It's the kind of day that reminds you why you fell in love with surfing in the first place.",
+                "Hey, tomorrow's got potential! Maybe not postcard-perfect, but good enough to get your stoke on. Pack your board, bring your smile, and enjoy what the ocean's serving up."
+            ],
+            fair: [
+                "Tomorrow's a bit of a mixed bag, not gonna lie. But hey, a day in the water beats a day anywhere else, right? Might need to work a little harder for those waves, but they're out there waiting.",
+                "It's not going to be magazine cover material tomorrow, but there's still fun to be had. Lower your expectations slightly, bring a positive attitude, and you'll find some gems out there.",
+                "Tomorrow's forecast is basically saying 'maybe'. Could be fun, could be meh. But you know what? Sometimes those 'meh' days surprise you with the best waves when you least expect it."
+            ],
+            poor: [
+                "Tomorrow's looking pretty flat, friend. The ocean's taking a day off, and honestly, maybe you should too. Good day for board maintenance, watching surf videos, or just dreaming about better days.",
+                "Not gonna sugarcoat it - tomorrow's a pass. Unless you've got a 10-foot longboard and endless patience, maybe use the day for some cross-training or catching up on sleep.",
+                "The surf forecast is basically showing the ocean's screensaver tomorrow. But don't worry, conditions change! Use the downtime to wax your board and visualize your next epic session."
+            ]
+        },
+        ja: {
+            epic: [
+                "明日はヤバいよ！早起きして、上司には歯医者って言っておいて、最高のセッションの準備をしよう。風とうねりが完璧に揃ってる - これは何週間も語り継がれるような一日になるかも！",
+                "えーっと...明日はあの日かもしれない。そう、THE DAY。仮病使って、お気に入りの板を持って、思い出を作る日。海からの個人的な招待状が届いてるよ！",
+                "アラート！サーフの神様が明日は気前がいいみたい。クリーンなコンディション、しっかりしたうねり、悩みを全部忘れさせてくれる波。絶対逃しちゃダメ！"
+            ],
+            good: [
+                "明日はかなり良さそう！「仕事辞める」レベルではないけど、いつもより早起きする価値あり。コンディションはクリーンで楽しい - 質の高いサーフタイムが過ごせそう。",
+                "明日はいい感じ！波は来てるし、風も味方してくれてる。サーフィンを好きになった理由を思い出させてくれる、そんな一日になりそう。",
+                "明日はポテンシャルあり！絵葉書みたいに完璧じゃないけど、ストーク上げるには十分。板を積んで、笑顔を忘れずに、海が用意してくれてるものを楽しもう。"
+            ],
+            fair: [
+                "正直、明日は微妙かも。でもさ、どこにいるよりも海にいる方がいいでしょ？波をつかむのにちょっと頑張らないといけないかもだけど、待ってる波はあるよ。",
+                "明日は雑誌の表紙にはならないけど、楽しみはある。期待値をちょい下げて、ポジティブな気持ちで行けば、宝石みたいな波が見つかるかも。",
+                "明日の予報は基本的に「たぶん」って言ってる。楽しいかも、微妙かも。でもさ、そういう「微妙」な日に限って、最高の波が来たりするんだよね。"
+            ],
+            poor: [
+                "明日はかなりフラットっぽい、友よ。海がお休みモードだから、君もそうした方がいいかも。板のメンテナンス、サーフ動画鑑賞、もっといい日を夢見る、そんな日にしよう。",
+                "オブラートに包まない - 明日はパス。10フィートのロングボードと無限の忍耐がない限り、クロストレーニングか睡眠に充てた方がいいかも。",
+                "明日のサーフ予報は海のスクリーンセーバー状態。でも心配しないで、コンディションは変わるから！ダウンタイムを使って板にワックス塗って、次のエピックセッションをイメージしよう。"
+            ]
+        }
+    };
+
+    const langInterp = interpretations[lang] || interpretations.en;
+    let pool;
+
+    if (bestScore >= 75) {
+        pool = langInterp.epic;
+    } else if (bestScore >= 55) {
+        pool = langInterp.good;
+    } else if (bestScore >= 35) {
+        pool = langInterp.fair;
+    } else {
+        pool = langInterp.poor;
+    }
+
+    return pool[Math.floor(Math.random() * pool.length)];
+}
+
 // ========================================
 // Tide Calculation
 // ========================================
@@ -615,18 +683,25 @@ function getWetsuitRecommendation(seaTemp) {
 }
 
 function getWeatherInfo(weatherCode) {
-    // WMO Weather interpretation codes
-    if (weatherCode === 0) return { labelKey: 'weatherClear', icon: 'sun' };
-    if (weatherCode <= 3) return { labelKey: 'weatherPartlyCloudy', icon: 'cloud-sun' };
-    if (weatherCode <= 49) return { labelKey: 'weatherFog', icon: 'fog' };
-    if (weatherCode <= 59) return { labelKey: 'weatherDrizzle', icon: 'cloud-drizzle' };
-    if (weatherCode <= 69) return { labelKey: 'weatherRain', icon: 'cloud-rain' };
-    if (weatherCode <= 79) return { labelKey: 'weatherSnow', icon: 'snowflake' };
-    if (weatherCode <= 84) return { labelKey: 'weatherRain', icon: 'cloud-rain' };
-    if (weatherCode <= 94) return { labelKey: 'weatherSnow', icon: 'snowflake' };
-    if (weatherCode <= 99) return { labelKey: 'weatherThunder', icon: 'cloud-lightning' };
-    return { labelKey: 'weatherCloudy', icon: 'cloud' };
+    // WMO Weather interpretation codes with emoji icons
+    if (weatherCode === 0) return { labelKey: 'weatherClear', emoji: '\u2600\uFE0F' }; // sun
+    if (weatherCode <= 3) return { labelKey: 'weatherPartlyCloudy', emoji: '\u26C5' }; // cloud-sun
+    if (weatherCode <= 49) return { labelKey: 'weatherFog', emoji: '\uD83C\uDF2B\uFE0F' }; // fog
+    if (weatherCode <= 59) return { labelKey: 'weatherDrizzle', emoji: '\uD83C\uDF27\uFE0F' }; // rain
+    if (weatherCode <= 69) return { labelKey: 'weatherRain', emoji: '\uD83C\uDF27\uFE0F' }; // rain
+    if (weatherCode <= 79) return { labelKey: 'weatherSnow', emoji: '\u2744\uFE0F' }; // snow
+    if (weatherCode <= 84) return { labelKey: 'weatherRain', emoji: '\uD83C\uDF27\uFE0F' }; // rain
+    if (weatherCode <= 94) return { labelKey: 'weatherSnow', emoji: '\u2744\uFE0F' }; // snow
+    if (weatherCode <= 99) return { labelKey: 'weatherThunder', emoji: '\u26A1' }; // thunder
+    return { labelKey: 'weatherCloudy', emoji: '\u2601\uFE0F' }; // cloud
 }
+
+// Icons as unicode escape sequences to avoid editor issues
+const ICONS = {
+    wave: '\uD83C\uDF0A',      // wave emoji
+    wind: '\uD83D\uDCA8',      // wind emoji
+    weather: '\uD83C\uDF24\uFE0F' // sun behind cloud
+};
 
 // ========================================
 // API
@@ -772,21 +847,21 @@ function renderCurrentConditions(data) {
         <div class="primary-stats fade-in">
             <div class="primary-stat-card wave-card">
                 <div class="primary-stat-info">
-                    <div class="primary-stat-label">${t('waveHeight')}</div>
+                    <div class="primary-stat-label">${ICONS.wave} ${t('waveHeight')}</div>
                     <div class="primary-stat-value">${waveHeight.toFixed(1)}<span class="unit">m</span></div>
                     <div class="primary-stat-sub">${wavePeriod.toFixed(0)}s ${getWindArrow(waveDirection || 0)} ${getDirectionText(waveDirection || 0)}</div>
                 </div>
             </div>
             <div class="primary-stat-card ${windCardClass}">
                 <div class="primary-stat-info">
-                    <div class="primary-stat-label">${t('wind')}</div>
+                    <div class="primary-stat-label">${ICONS.wind} ${t('wind')}</div>
                     <div class="primary-stat-value">${windSpeed.toFixed(0)}<span class="unit">m/s</span></div>
                     <div class="primary-stat-sub ${windCond.class}">${t(windCond.labelKey)} ${getWindArrow(windDirection)}</div>
                 </div>
             </div>
             <div class="primary-stat-card weather-card">
                 <div class="primary-stat-info">
-                    <div class="primary-stat-label">${t('weather')}</div>
+                    <div class="primary-stat-label">${weatherInfo.emoji} ${t('weather')}</div>
                     <div class="primary-stat-value weather-value">${t(weatherInfo.labelKey)}</div>
                 </div>
             </div>
@@ -898,6 +973,10 @@ function renderTomorrowForecast(data) {
     const bestEnd = allHours[endIdx].hour;
     const bestTimeRange = bestStart === bestEnd ? `${bestStart}:00` : `${bestStart}:00 - ${bestEnd}:00`;
 
+    // Calculate average score and generate interpretation
+    const avgScore = allHours.reduce((sum, h) => sum + h.score, 0) / allHours.length;
+    const forecastInterpretation = generateForecastInterpretation(bestHour.score, bestHour.waveHeight, bestHour.windCond, avgScore, currentLang);
+
     const periods = [
         { key: 'early', hours: allHours.filter(h => h.hour >= 5 && h.hour < 9) },
         { key: 'morning', hours: allHours.filter(h => h.hour >= 9 && h.hour < 13) },
@@ -925,6 +1004,11 @@ function renderTomorrowForecast(data) {
             <div class="best-time-rating ${bestHour.rating.class}">${t(bestHour.rating.labelKey)}</div>
         </div>
 
+        <div class="forecast-interpretation fade-in">
+            <div class="interpretation-label">${t('forecastAdvice')}</div>
+            <p class="interpretation-text">${forecastInterpretation}</p>
+        </div>
+
         <div class="tomorrow-grid fade-in">
             ${summaryData.map(s => `
                 <div class="time-block ${s.bestHour.hour === bestHour.hour ? 'best' : ''}">
@@ -939,8 +1023,6 @@ function renderTomorrowForecast(data) {
 
         <div class="hourly-timeline fade-in">
             <h3>${t('hourlyDetail')}</h3>
-
-            <!-- Hourly Data Table -->
             <div class="hourly-data-row">
                 ${allHours.map(h => `
                     <div class="hourly-data-cell ${h.hour === bestHour.hour ? 'best' : ''}">
@@ -949,69 +1031,6 @@ function renderTomorrowForecast(data) {
                         <div class="hourly-wind ${h.windCond.class}">${t(h.windCond.labelKey)}</div>
                     </div>
                 `).join('')}
-            </div>
-
-            <!-- Score Line Graph -->
-            <div class="score-line-graph">
-                <svg viewBox="0 0 ${allHours.length * 30} 60" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:var(--success);stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:var(--success);stop-opacity:0.05" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Fill area -->
-                    <polygon
-                        points="${allHours.map((h, i) => `${i * 30 + 15},${60 - (h.score / 100) * 50}`).join(' ')} ${(allHours.length - 1) * 30 + 15},60 15,60"
-                        fill="url(#scoreGradient)"
-                    />
-                    <!-- Line -->
-                    <polyline
-                        points="${allHours.map((h, i) => `${i * 30 + 15},${60 - (h.score / 100) * 50}`).join(' ')}"
-                        fill="none"
-                        stroke="var(--success)"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                    <!-- Dots -->
-                    ${allHours.map((h, i) => `
-                        <circle
-                            cx="${i * 30 + 15}"
-                            cy="${60 - (h.score / 100) * 50}"
-                            r="${h.hour === bestHour.hour ? 5 : 3}"
-                            fill="${h.hour === bestHour.hour ? 'var(--warning)' : 'var(--success)'}"
-                        />
-                    `).join('')}
-                </svg>
-            </div>
-
-            <!-- Bar Chart -->
-            <div class="timeline-container">
-                <div class="timeline-bars">
-                    ${allHours.map(h => {
-                        const barHeight = Math.max(15, (h.score / 100) * 100);
-                        const isBest = h.hour === bestHour.hour;
-                        return `
-                            <div class="timeline-bar" data-tooltip="${h.label} | ${h.waveHeight.toFixed(1)}m | ${h.score}pt | ${t(h.windCond.labelKey)}">
-                                <div class="bar-fill ${h.rating.class} ${isBest ? 'best-hour' : ''}" style="height: ${barHeight}%"></div>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-                <div class="timeline-labels">
-                    <span>5:00</span>
-                    <span>9:00</span>
-                    <span>12:00</span>
-                    <span>15:00</span>
-                    <span>18:00</span>
-                </div>
-            </div>
-            <div class="timeline-legend">
-                <div class="legend-item"><div class="legend-dot excellent"></div>${t('excellent')}</div>
-                <div class="legend-item"><div class="legend-dot good"></div>${t('good')}</div>
-                <div class="legend-item"><div class="legend-dot fair"></div>${t('fair')}</div>
-                <div class="legend-item"><div class="legend-dot poor"></div>${t('poor')}</div>
             </div>
         </div>
     `;
