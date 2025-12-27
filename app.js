@@ -68,6 +68,16 @@ const translations = {
         drysuit: 'Drysuit',
         // Regions
         japan: 'Japan',
+        // Weather
+        weatherClear: 'Clear',
+        weatherPartlyCloudy: 'Partly Cloudy',
+        weatherCloudy: 'Cloudy',
+        weatherFog: 'Fog',
+        weatherDrizzle: 'Drizzle',
+        weatherRain: 'Rain',
+        weatherSnow: 'Snow',
+        weatherThunder: 'Thunderstorm',
+        weather: 'Weather',
         // Intro
         introText: 'Free surf forecast for friendly surfers worldwide. Real-time wave data & prediction algorithm. Check the conditions and find your peak!',
         // Footer
@@ -133,6 +143,16 @@ const translations = {
         drysuit: 'ドライスーツ',
         // Regions
         japan: '日本',
+        // Weather
+        weatherClear: '晴れ',
+        weatherPartlyCloudy: 'くもり時々晴れ',
+        weatherCloudy: 'くもり',
+        weatherFog: '霧',
+        weatherDrizzle: '小雨',
+        weatherRain: '雨',
+        weatherSnow: '雪',
+        weatherThunder: '雷雨',
+        weather: '天気',
         // Intro
         introText: '世界中のフレンドリーサーファーのための無料波予報。リアルタイム波データ＆予測アルゴリズム。コンディションをチェックしてピークを見つけよう！',
         // Footer
@@ -594,6 +614,20 @@ function getWetsuitRecommendation(seaTemp) {
     return { suitKey: 'drysuit' };
 }
 
+function getWeatherInfo(weatherCode) {
+    // WMO Weather interpretation codes
+    if (weatherCode === 0) return { labelKey: 'weatherClear', icon: 'sun' };
+    if (weatherCode <= 3) return { labelKey: 'weatherPartlyCloudy', icon: 'cloud-sun' };
+    if (weatherCode <= 49) return { labelKey: 'weatherFog', icon: 'fog' };
+    if (weatherCode <= 59) return { labelKey: 'weatherDrizzle', icon: 'cloud-drizzle' };
+    if (weatherCode <= 69) return { labelKey: 'weatherRain', icon: 'cloud-rain' };
+    if (weatherCode <= 79) return { labelKey: 'weatherSnow', icon: 'snowflake' };
+    if (weatherCode <= 84) return { labelKey: 'weatherRain', icon: 'cloud-rain' };
+    if (weatherCode <= 94) return { labelKey: 'weatherSnow', icon: 'snowflake' };
+    if (weatherCode <= 99) return { labelKey: 'weatherThunder', icon: 'cloud-lightning' };
+    return { labelKey: 'weatherCloudy', icon: 'cloud' };
+}
+
 // ========================================
 // API
 // ========================================
@@ -707,6 +741,8 @@ function renderCurrentConditions(data) {
     const sunrise = weatherDaily.sunrise?.[0];
     const sunset = weatherDaily.sunset?.[0];
     const wetsuit = getWetsuitRecommendation(seaTemp);
+    const weatherCode = weather.weather_code?.[hourIndex] || 0;
+    const weatherInfo = getWeatherInfo(weatherCode);
 
     const score = calculateWaveScore(waveHeight, wavePeriod, waveDirection, currentSpot.facing);
     const rating = getRating(score);
@@ -732,10 +768,9 @@ function renderCurrentConditions(data) {
             <div class="condition-comment">"${funnyComment}"</div>
         </div>
 
-        <!-- Primary: Wave Height + Wind -->
+        <!-- Primary: Wave Height + Wind + Weather -->
         <div class="primary-stats fade-in">
             <div class="primary-stat-card wave-card">
-                <div class="primary-stat-icon">🌊</div>
                 <div class="primary-stat-info">
                     <div class="primary-stat-label">${t('waveHeight')}</div>
                     <div class="primary-stat-value">${waveHeight.toFixed(1)}<span class="unit">m</span></div>
@@ -743,11 +778,16 @@ function renderCurrentConditions(data) {
                 </div>
             </div>
             <div class="primary-stat-card ${windCardClass}">
-                <div class="primary-stat-icon">💨</div>
                 <div class="primary-stat-info">
                     <div class="primary-stat-label">${t('wind')}</div>
                     <div class="primary-stat-value">${windSpeed.toFixed(0)}<span class="unit">m/s</span></div>
                     <div class="primary-stat-sub ${windCond.class}">${t(windCond.labelKey)} ${getWindArrow(windDirection)}</div>
+                </div>
+            </div>
+            <div class="primary-stat-card weather-card">
+                <div class="primary-stat-info">
+                    <div class="primary-stat-label">${t('weather')}</div>
+                    <div class="primary-stat-value weather-value">${t(weatherInfo.labelKey)}</div>
                 </div>
             </div>
         </div>
@@ -779,11 +819,11 @@ function renderCurrentConditions(data) {
         <div class="tertiary-info fade-in">
             <div class="sun-info-compact">
                 <div class="sun-info-item">
-                    <span class="sun-info-icon">🌅</span>
+                    <span class="sun-info-label">${t('sunrise')}</span>
                     <span class="sun-info-time">${formatSunTime(sunrise)}</span>
                 </div>
                 <div class="sun-info-item">
-                    <span class="sun-info-icon">🌇</span>
+                    <span class="sun-info-label">${t('sunset')}</span>
                     <span class="sun-info-time">${formatSunTime(sunset)}</span>
                 </div>
             </div>
@@ -836,9 +876,26 @@ function renderTomorrowForecast(data) {
     }
 
     const bestHour = allHours.reduce((best, curr) => curr.score > best.score ? curr : best);
-    const goodHours = allHours.filter(h => h.score >= bestHour.score - 10);
-    const bestStart = Math.min(...goodHours.map(h => h.hour));
-    const bestEnd = Math.max(...goodHours.map(h => h.hour));
+    // Find continuous range of good hours around best hour (within 5 points)
+    const bestIdx = allHours.findIndex(h => h.hour === bestHour.hour);
+    let startIdx = bestIdx;
+    let endIdx = bestIdx;
+    // Expand backwards
+    while (startIdx > 0 && allHours[startIdx - 1].score >= bestHour.score - 5) {
+        startIdx--;
+    }
+    // Expand forwards
+    while (endIdx < allHours.length - 1 && allHours[endIdx + 1].score >= bestHour.score - 5) {
+        endIdx++;
+    }
+    // Limit to max 4 hour range
+    if (endIdx - startIdx > 3) {
+        const midIdx = Math.floor((startIdx + endIdx) / 2);
+        startIdx = Math.max(startIdx, midIdx - 1);
+        endIdx = Math.min(endIdx, midIdx + 2);
+    }
+    const bestStart = allHours[startIdx].hour;
+    const bestEnd = allHours[endIdx].hour;
     const bestTimeRange = bestStart === bestEnd ? `${bestStart}:00` : `${bestStart}:00 - ${bestEnd}:00`;
 
     const periods = [
@@ -882,6 +939,54 @@ function renderTomorrowForecast(data) {
 
         <div class="hourly-timeline fade-in">
             <h3>${t('hourlyDetail')}</h3>
+
+            <!-- Hourly Data Table -->
+            <div class="hourly-data-row">
+                ${allHours.map(h => `
+                    <div class="hourly-data-cell ${h.hour === bestHour.hour ? 'best' : ''}">
+                        <div class="hourly-time">${h.label}</div>
+                        <div class="hourly-wave">${h.waveHeight.toFixed(1)}m</div>
+                        <div class="hourly-wind ${h.windCond.class}">${t(h.windCond.labelKey)}</div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <!-- Score Line Graph -->
+            <div class="score-line-graph">
+                <svg viewBox="0 0 ${allHours.length * 30} 60" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--success);stop-opacity:0.4" />
+                            <stop offset="100%" style="stop-color:var(--success);stop-opacity:0.05" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Fill area -->
+                    <polygon
+                        points="${allHours.map((h, i) => `${i * 30 + 15},${60 - (h.score / 100) * 50}`).join(' ')} ${(allHours.length - 1) * 30 + 15},60 15,60"
+                        fill="url(#scoreGradient)"
+                    />
+                    <!-- Line -->
+                    <polyline
+                        points="${allHours.map((h, i) => `${i * 30 + 15},${60 - (h.score / 100) * 50}`).join(' ')}"
+                        fill="none"
+                        stroke="var(--success)"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+                    <!-- Dots -->
+                    ${allHours.map((h, i) => `
+                        <circle
+                            cx="${i * 30 + 15}"
+                            cy="${60 - (h.score / 100) * 50}"
+                            r="${h.hour === bestHour.hour ? 5 : 3}"
+                            fill="${h.hour === bestHour.hour ? 'var(--warning)' : 'var(--success)'}"
+                        />
+                    `).join('')}
+                </svg>
+            </div>
+
+            <!-- Bar Chart -->
             <div class="timeline-container">
                 <div class="timeline-bars">
                     ${allHours.map(h => {
@@ -954,9 +1059,8 @@ function renderError(message) {
 async function selectSpot(spot) {
     currentSpot = spot;
 
-    document.querySelectorAll('.spot-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.spotId === spot.id);
-    });
+    // Update spot dropdown to reflect new country
+    renderSpotTabs();
 
     ['currentConditions', 'tomorrowForecast', 'weeklyForecast'].forEach(id => {
         document.getElementById(id).innerHTML = `<div class="loading">${t('loading')}</div>`;
