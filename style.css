@@ -1683,6 +1683,60 @@ section h2 {
     font-weight: 600;
 }
 
+/* Community Section */
+.community-section {
+    text-align: center;
+    margin-top: 30px;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(88, 101, 242, 0.15) 0%, rgba(88, 101, 242, 0.05) 100%);
+    border: 1px solid rgba(88, 101, 242, 0.3);
+    border-radius: var(--radius);
+}
+
+.community-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.community-description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #5865F2;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.discord-btn:hover {
+    background: #4752C4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4);
+}
+
+.discord-icon {
+    flex-shrink: 0;
+}
+
+.community-beta {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
 /* Pay It Forward Section */
 .pay-forward-section {
     margin-top: 30px;

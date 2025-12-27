@@ -87,7 +87,10 @@ const translations = {
         coffeeText: 'Buy the site owner a morning coffee!',
         donateDescription: 'This site is completely non-profit, but there are some operating costs. If the forecast helps you catch a good wave, your support means a lot! (But no guarantees if it\'s wrong... haha)',
         charityTitle: 'Other recommended Pay it Forward options',
-        charityDescription: 'I personally support these organizations. May everyone enjoy the best surfing in a sustainable, beautiful environment with an amazing community...'
+        charityDescription: 'I personally support these organizations. May everyone enjoy the best surfing in a sustainable, beautiful environment with an amazing community...',
+        communityTitle: 'Join the Community',
+        communityDescription: 'Connect with fellow surfers! Share trips, find surf buddies, get local tips, and more.',
+        discordBtnText: 'Join Discord Server'
     },
     ja: {
         currentConditions: '現在のコンディション',
@@ -167,7 +170,10 @@ const translations = {
         coffeeText: '運営者に朝のコーヒーをお願いね！',
         donateDescription: '完全に非収益ですが、運営コストが若干かかるので予報が当たった時はサポートしてくれると助かります。でも外れても知らんからな！このタブから開発者に寄付ができるよ',
         charityTitle: 'その他おすすめのPay it Forward先',
-        charityDescription: '個人的に活動を応援します。全ての人にサステイナブルで美しい環境で最高のサーフィンを素晴らしいコミュニティと共にできますように...'
+        charityDescription: '個人的に活動を応援します。全ての人にサステイナブルで美しい環境で最高のサーフィンを素晴らしいコミュニティと共にできますように...',
+        communityTitle: 'コミュニティに参加',
+        communityDescription: 'サーファー仲間とつながろう！トリップ募集、バディ探し、ローカル情報など。',
+        discordBtnText: 'Discordサーバーに参加'
     }
 };
 
@@ -1114,6 +1120,9 @@ function toggleLanguage() {
     document.getElementById('donateDescription').textContent = t('donateDescription');
     document.getElementById('charityTitle').textContent = t('charityTitle');
     document.getElementById('charityDescription').textContent = t('charityDescription');
+    document.getElementById('communityTitle').textContent = t('communityTitle');
+    document.getElementById('communityDescription').textContent = t('communityDescription');
+    document.getElementById('discordBtnText').textContent = t('discordBtnText');
     renderSpotTabs();
     if (forecastData) {
         renderCurrentConditions(forecastData);
