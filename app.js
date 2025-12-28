@@ -599,11 +599,12 @@ function generateForecastInterpretation(bestScore, bestWaveHeight, bestWindCond,
     const langInterp = interpretations[lang] || interpretations.en;
     let pool;
 
-    if (bestScore >= 75) {
+    // Adjusted thresholds for stricter scoring system
+    if (bestScore >= 65) {
         pool = langInterp.epic;
-    } else if (bestScore >= 55) {
+    } else if (bestScore >= 45) {
         pool = langInterp.good;
-    } else if (bestScore >= 35) {
+    } else if (bestScore >= 25) {
         pool = langInterp.fair;
     } else {
         pool = langInterp.poor;
@@ -793,9 +794,10 @@ function getWindCondition(windSpeed, windDirection, spotFacing) {
 }
 
 function getRating(score) {
-    if (score >= 75) return { class: 'excellent', labelKey: 'excellent' };
-    if (score >= 55) return { class: 'good', labelKey: 'good' };
-    if (score >= 35) return { class: 'fair', labelKey: 'fair' };
+    // Adjusted thresholds for stricter scoring system
+    if (score >= 65) return { class: 'epic', labelKey: 'excellent' };
+    if (score >= 45) return { class: 'good', labelKey: 'good' };
+    if (score >= 25) return { class: 'fair', labelKey: 'fair' };
     return { class: 'poor', labelKey: 'poor' };
 }
 
