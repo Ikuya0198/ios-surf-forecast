@@ -347,49 +347,82 @@ function generateFunnyComment(waveHeight, wavePeriod, windCond, score, lang) {
                 "Perfect day to fix your dings",
                 "SUP yoga anyone?",
                 "Time to practice your pop-ups on land",
-                "The ocean called in sick today"
+                "The ocean called in sick today",
+                "Even the fish are bored",
+                "Flatter than a pancake out there",
+                "Good day to organize your wetsuit drawer",
+                "The lake called, wants its waves back",
+                "Meditation session at the beach?"
             ],
             small: [
                 "Longboard therapy session",
                 "Knee-high fun rides",
                 "Perfect for learning or chilling",
                 "Small but playful!",
-                "Log it up, bro"
+                "Log it up, bro",
+                "Mellow vibes only",
+                "Bring the foamie!",
+                "Cruisy day ahead",
+                "Fun-sized waves",
+                "Summer vibes, winter size"
             ],
             good: [
                 "Get out there! No excuses!",
                 "Your boss won't notice you're gone",
                 "Call in sick, it's worth it",
                 "The waves are calling your name",
-                "Stoke levels: HIGH"
+                "Stoke levels: HIGH",
+                "Time to earn those tan lines",
+                "Cancel your afternoon meetings",
+                "The ocean is serving today",
+                "Paddle out and find out!",
+                "Good things come to those who surf"
             ],
             epic: [
                 "DROP EVERYTHING AND GO!!!",
                 "This is not a drill! EPIC conditions!",
                 "You'll regret missing this one",
                 "Tell your boss you have food poisoning",
-                "Best day of the year maybe?!"
+                "Best day of the year maybe?!",
+                "Legends are made on days like this",
+                "Your board is literally crying for you",
+                "This is what we live for!!!",
+                "Quit your job. Just kidding. Maybe.",
+                "The surf gods have blessed us today"
             ],
             big: [
                 "Big wave, big dreams, big hospital bills maybe",
                 "Know your limits, legend",
                 "Experts only - seriously",
-                "Hold-downs are free today"
+                "Hold-downs are free today",
+                "Respect the ocean today",
+                "Check your life insurance first",
+                "Gun day. You brought your gun, right?",
+                "Not for the faint of heart"
             ],
             offshore: [
                 "Glass! Clean faces ahead",
                 "Offshore perfection incoming",
-                "Silky smooth conditions"
+                "Silky smooth conditions",
+                "The wind is your friend today",
+                "Glassy goodness awaits",
+                "Mirror-like conditions"
             ],
             onshore: [
                 "Bit choppy but still fun",
                 "Bring your positive attitude",
-                "Character building conditions"
+                "Character building conditions",
+                "Bumpy ride ahead",
+                "Wind won't stop the determined",
+                "Embrace the chop!"
             ],
             swell: [
                 "Nice groundswell coming through!",
                 "Quality swell in the water",
-                "Long period energy = good times"
+                "Long period energy = good times",
+                "The ocean is pumping today",
+                "Swell is looking juicy!",
+                "Power from the deep"
             ]
         },
         ja: {
@@ -398,49 +431,82 @@ function generateFunnyComment(waveHeight, wavePeriod, windCond, score, lang) {
                 "板のリペアに最適な日！",
                 "SUPヨガでもする？",
                 "陸トレの日だね",
-                "海がお休みモード"
+                "海がお休みモード",
+                "魚も暇そうだね",
+                "プールより平ら",
+                "ウェット整理の日にしよう",
+                "湖かな？って思うレベル",
+                "ビーチで瞑想でもする？"
             ],
             small: [
                 "ロングボードでまったり",
                 "膝波で遊ぼう",
                 "初心者にぴったり",
                 "小さいけど楽しい！",
-                "ログでクルージング"
+                "ログでクルージング",
+                "まったりバイブスで",
+                "スポンジボード持ってきて！",
+                "ゆるゆるデイ",
+                "ミニサイズでも楽しめる",
+                "夏の気分、冬のサイズ"
             ],
             good: [
                 "海行くしかない！言い訳無用！",
                 "上司にバレないよ多分",
                 "仮病使ってでも行く価値あり",
                 "波が君を呼んでいる",
-                "ストークレベル：MAX"
+                "ストークレベル：MAX",
+                "日焼けする準備OK？",
+                "午後の会議キャンセルしよ",
+                "海がご馳走を用意してる",
+                "パドルアウトあるのみ！",
+                "サーフィンする者に幸あれ"
             ],
             epic: [
                 "今すぐ仕事やめて海へ！！！",
                 "これは訓練ではない！最高の波！",
                 "逃したら後悔するやつ",
                 "食中毒ってことにしとけ",
-                "今年ベストの日かも？！"
+                "今年ベストの日かも？！",
+                "伝説はこういう日に生まれる",
+                "板が泣いて呼んでるよ",
+                "これが生きる理由！！！",
+                "仕事辞める？冗談...いや本気かも",
+                "サーフの神様が微笑んでる"
             ],
             big: [
                 "デカ波、ビッグドリーム、病院代もビッグかも",
                 "限界を知ろう、レジェンド",
                 "上級者オンリー、マジで",
-                "巻かれ放題"
+                "巻かれ放題",
+                "今日は海をリスペクト",
+                "保険入ってる？",
+                "ガンの日。ガン持ってきた？",
+                "心臓弱い人は見学で"
             ],
             offshore: [
                 "グラッシー！面ツル確定",
                 "オフショア最高",
-                "シルキースムース"
+                "シルキースムース",
+                "風が味方してくれてる",
+                "鏡みたいな海面",
+                "無風パラダイス"
             ],
             onshore: [
                 "ちょいチョッピーだけど楽しめる",
                 "ポジティブマインドで",
-                "修行日和"
+                "修行日和",
+                "ガタガタ道だけど前進あるのみ",
+                "風に負けない心で",
+                "チョッピーを楽しめ！"
             ],
             swell: [
                 "いいグランドスウェル来てる！",
                 "クオリティスウェル",
-                "ロングピリオド＝グッドタイム"
+                "ロングピリオド＝グッドタイム",
+                "海がパンプしてる！",
+                "うねりがジューシー！",
+                "深海からのパワー"
             ]
         }
     };
