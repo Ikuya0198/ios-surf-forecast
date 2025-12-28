@@ -732,23 +732,33 @@ function calculateWaveScore(waveHeight, wavePeriod, waveDirection, spotFacing) {
         score += 10; // Dangerous
     }
 
-    // Period bonus (0-25 points) - only significant if waves exist
-    const periodMultiplier = waveHeight >= 0.3 ? 1 : 0.3;
-    if (wavePeriod >= 12) score += 25 * periodMultiplier;
-    else if (wavePeriod >= 10) score += 20 * periodMultiplier;
-    else if (wavePeriod >= 8) score += 15 * periodMultiplier;
-    else if (wavePeriod >= 6) score += 10 * periodMultiplier;
-    else score += 5 * periodMultiplier;
+    // Bonus multiplier based on wave height - small waves get reduced bonuses
+    let bonusMultiplier;
+    if (waveHeight < 0.3) {
+        bonusMultiplier = 0.2;  // Almost no bonus for flat
+    } else if (waveHeight < 0.5) {
+        bonusMultiplier = 0.3;  // Minimal bonus for tiny waves
+    } else if (waveHeight < 0.8) {
+        bonusMultiplier = 0.6;  // Reduced bonus for small waves
+    } else {
+        bonusMultiplier = 1.0;  // Full bonus for good size
+    }
 
-    // Direction bonus (0-25 points) - only significant if waves exist
+    // Period bonus (0-25 points) - scaled by wave height
+    if (wavePeriod >= 12) score += Math.round(25 * bonusMultiplier);
+    else if (wavePeriod >= 10) score += Math.round(20 * bonusMultiplier);
+    else if (wavePeriod >= 8) score += Math.round(15 * bonusMultiplier);
+    else if (wavePeriod >= 6) score += Math.round(10 * bonusMultiplier);
+    else score += Math.round(5 * bonusMultiplier);
+
+    // Direction bonus (0-25 points) - scaled by wave height
     if (waveDirection !== null && !isNaN(waveDirection)) {
         const angleDiff = Math.abs(waveDirection - spotFacing);
         const normalizedDiff = angleDiff > 180 ? 360 - angleDiff : angleDiff;
-        const dirMultiplier = waveHeight >= 0.3 ? 1 : 0.3;
-        if (normalizedDiff <= 30) score += 25 * dirMultiplier;
-        else if (normalizedDiff <= 60) score += 18 * dirMultiplier;
-        else if (normalizedDiff <= 90) score += 10 * dirMultiplier;
-        else score += 5 * dirMultiplier;
+        if (normalizedDiff <= 30) score += Math.round(25 * bonusMultiplier);
+        else if (normalizedDiff <= 60) score += Math.round(18 * bonusMultiplier);
+        else if (normalizedDiff <= 90) score += Math.round(10 * bonusMultiplier);
+        else score += Math.round(5 * bonusMultiplier);
     }
 
     return Math.min(100, Math.round(score));
