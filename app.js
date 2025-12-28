@@ -17,6 +17,10 @@ const translations = {
         selectDesc: 'Choose from 14 popular spots in Japan. More countries coming soon!',
         waveHeight: 'Wave',
         waveNote: '* Beach breaks are typically 20-30% bigger than shown',
+        todayHourly: "Today's Hourly",
+        showHourly: 'Show hourly details',
+        hideHourly: 'Hide hourly details',
+        time: 'Time',
         period: 'Period',
         waveDir: 'Direction',
         swell: 'Swell',
@@ -100,6 +104,10 @@ const translations = {
         selectDesc: '日本の人気14スポットから選んでください。他の国も近日追加予定！',
         waveHeight: '波高',
         waveNote: '※ビーチブレイクでは実際の波は表示より2〜3割大きくなります',
+        todayHourly: '今日の時間別',
+        showHourly: '時間別を見る',
+        hideHourly: '時間別を隠す',
+        time: '時間',
         period: '周期',
         waveDir: '波向き',
         swell: 'うねり',
@@ -168,7 +176,7 @@ const translations = {
         // Footer
         payForward: 'このサイトから収益は一切いただきません。いい波に乗れたら、Pay it Forward！',
         coffeeText: '運営者に朝のコーヒーをお願いね！',
-        donateDescription: '完全に非収益ですが、運営コストが若干かかるので予報が当たった時はサポートしてくれると助かります。でも外れても知らんからな！このタブから開発者に寄付ができるよ',
+        donateDescription: '完全に非収益ですが、どうしても感謝したい方はどうぞ。でも外れても知らんからな！このタブから開発者に寄付ができるよ。',
         charityTitle: 'その他おすすめのPay it Forward先',
         charityDescription: 'I personally support these organizations. May everyone enjoy the best surfing in a sustainable, beautiful environment with an amazing community...',
         communityTitle: 'コミュニティに参加',
@@ -1024,7 +1032,92 @@ function renderCurrentConditions(data) {
                 </div>
             </div>
         </div>
+
+        <!-- Collapsible Hourly Section -->
+        <div class="hourly-toggle-section fade-in">
+            <button class="hourly-toggle-btn" onclick="toggleTodayHourly()">
+                <span class="toggle-icon">▼</span>
+                <span class="toggle-text">${t('showHourly')}</span>
+            </button>
+            <div class="today-hourly-content" id="todayHourlyContent" style="display: none;">
+                ${generateTodayHourlyTable(data)}
+            </div>
+        </div>
     `;
+}
+
+function generateTodayHourlyTable(data) {
+    const hourly = data.marine.hourly;
+    const weather = data.weather.hourly;
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+    const currentHour = now.getHours();
+
+    let rows = '';
+    for (let hour = 5; hour <= 20; hour++) {
+        const targetTime = `${todayStr}T${String(hour).padStart(2, '0')}:00`;
+        const index = hourly.time.findIndex(time => time === targetTime);
+        if (index === -1) continue;
+
+        const waveHeight = hourly.wave_height[index] || 0;
+        const wavePeriod = hourly.wave_period[index] || 0;
+        const waveDirection = hourly.wave_direction[index];
+        const windSpeed = weather.wind_speed_10m[index] || 0;
+        const windDirection = weather.wind_direction_10m[index] || 0;
+
+        const windCond = getWindCondition(windSpeed, windDirection, currentSpot.facing);
+        const baseScore = calculateWaveScore(waveHeight, wavePeriod, waveDirection, currentSpot.facing);
+        const score = adjustScoreForWind(baseScore, windCond);
+        const rating = getRating(score);
+
+        const isCurrentHour = hour === currentHour;
+        const isPast = hour < currentHour;
+        const rowClass = isCurrentHour ? 'current-hour' : (isPast ? 'past-hour' : '');
+
+        rows += `
+            <tr class="${rowClass}">
+                <td class="hourly-time">${hour}:00</td>
+                <td class="hourly-wave">${waveHeight.toFixed(1)}m</td>
+                <td class="hourly-period">${wavePeriod.toFixed(0)}s</td>
+                <td class="hourly-wind">${windSpeed.toFixed(0)}m/s ${getWindArrow(windDirection)}</td>
+                <td class="hourly-score"><span class="mini-badge ${rating.class}">${score}</span></td>
+            </tr>
+        `;
+    }
+
+    return `
+        <table class="today-hourly-table">
+            <thead>
+                <tr>
+                    <th>${t('time')}</th>
+                    <th>${t('waveHeight')}</th>
+                    <th>${t('period')}</th>
+                    <th>${t('wind')}</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${rows}
+            </tbody>
+        </table>
+    `;
+}
+
+function toggleTodayHourly() {
+    const content = document.getElementById('todayHourlyContent');
+    const btn = document.querySelector('.hourly-toggle-btn');
+    const icon = btn.querySelector('.toggle-icon');
+    const text = btn.querySelector('.toggle-text');
+
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        icon.textContent = '▲';
+        text.textContent = t('hideHourly');
+    } else {
+        content.style.display = 'none';
+        icon.textContent = '▼';
+        text.textContent = t('showHourly');
+    }
 }
 
 function renderTomorrowForecast(data) {
